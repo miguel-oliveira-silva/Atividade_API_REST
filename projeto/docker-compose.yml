@@ -1,0 +1,24 @@
+services:
+  pilotos:
+    build: ./pilotos
+    container_name: ms-pilotos
+    ports:
+      - "8001:8000"
+    networks:
+      - aero-network
+
+  voos:
+    build: ./voos
+    container_name: ms-voos
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pilotos
+    environment:
+      - PILOTOS_URL=http://pilotos:8000
+    networks:
+      - aero-network
+
+networks:
+  aero-network:
+    driver: bridge
