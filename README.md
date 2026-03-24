@@ -33,4 +33,14 @@ Se um dos serviços quando um dos serviço tentar "chamar" (fazer uma requisiç�
 
 ![Legenda da Imagem](./prints/print8.png)
 
+Dependendo de como o serviço foi escrito ira retornar o erro 503 também ou seja se pilotos fizer uma requisição (programado para esperar 3s) e voos demorar 5s para responder ira retonar erro também o que pode se tornan um gargalo dependendo da escala de requisições. (nesse caso foi colocado de forma forçad um timeout).
+
+
+![Legenda da Imagem](./prints/print9.png)
+
+#PROBLEMAS QUE PODEM OCORRRER
+
+Neste tipo de implementação, o principal problema é o acoplamento temporal, pois o funcionamento do serviço de voos depende totalmente da disponibilidade imediata do serviço de pilotos. Se o serviço de pilotos estiver offline ou apresentar lentidão, o serviço de voos não consegue completar a tarefa, o que pode gerar um efeito dominó onde a falha de um componente derruba o sistema inteiro (no caso de um sistema com mais componentes)
+
+Outro problema é o gargalo de desempenho e o esgotamento de recursos. Como a comunicação é síncrona, o serviço que faz a chamada fica ocupado aguardando a resposta do outro. Em larga escala, se houver um atraso na rede ou no processamento, as conexões podem se acumular até causar o travamento de todos os serviços e não ter um sistema de retentativas ou de uma fila de mensagens torna a arquitetura mais vulnerável a falhas momentâneas.
 
